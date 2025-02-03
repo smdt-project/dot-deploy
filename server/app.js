@@ -7,6 +7,7 @@ const latestRoute = require("./routes/latestRoute");
 const postRoute = require("./routes/postRoute");
 const commentRoute = require("./routes/commentRoute");
 const searchRoute = require("./routes/searchRoute");
+const organizationRoute = require("./routes/orgRoute");
 const globalErrorHandler = require("./controllers/errorController");
 const AppError = require("./utils/AppError");
 const cookieParser = require("cookie-parser");
@@ -46,6 +47,7 @@ app.use("/api/v1/comments", commentRoute);
 app.use("/api/v1/posts", postRoute);
 app.use("/api/v1/search", searchRoute);
 app.use("/api/v1/latest", latestRoute);
+app.use("/api/v1/organization", organizationRoute);
 
 // Handle undefined routes
 app.all("*", (req, res, next) =>
