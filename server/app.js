@@ -18,23 +18,18 @@ const app = express();
 // middlewares
 app.use(
   cors({
-    methods: ["GET", "POST", "PUT", "DELETE"],
-  })
-);
-app.use(
-  cors({
-    origin: "*",
+    origin: ["http://localhost:5173", "http://127.0.0.1:5173"],
     credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+    allowedHeaders: [
+      "Content-Type",
+      "Authorization",
+      "Accept",
+      "Origin",
+      "X-Requested-With",
+    ],
   })
 );
-app.use((req, res, next) => {
-  //res.header("Access-Control-Allow-Origin", frontedOrigin);
-  res.header("Access-Control-Allow-Credentials", "true");
-  res.header("Access-Control-Allow-Methods", "GET, POST, PATCH, DELETE");
-  res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
-  next();
-});
-
 // Other middlewares
 // Use the CORS middleware
 app.use(morgan("dev"));
