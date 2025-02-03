@@ -1,0 +1,29 @@
+{
+	"name": "dotcode_api",
+	"version": "1.0.0",
+	"main": "server.js",
+	"scripts": {
+		"start": "nodemon server.js",
+		"start:prod": "NODE_ENV=production nodemon server.js",
+		"debug": "ndb server.js"
+	},
+	"keywords": [],
+	"author": "smachew gedefaw c.",
+	"license": "ISC",
+	"dependencies": {
+		"bcryptjs": "^2.4.3",
+		"cookie-parser": "^1.4.7",
+		"cors": "^2.8.5",
+		"dotenv": "^16.4.5",
+		"express": "^4.21.1",
+		"jsonwebtoken": "^9.0.2",
+		"mongoose": "^8.7.0",
+		"morgan": "^1.10.0",
+		"nodemailer": "^6.9.15",
+		"validator": "^13.12.0"
+	},
+	"devDependencies": {
+		"nodemon": "^3.1.7"
+	},
+	"description": "api for a code snippet and ui component management application"
+}
