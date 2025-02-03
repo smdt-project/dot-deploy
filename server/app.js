@@ -13,23 +13,26 @@ const cookieParser = require("cookie-parser");
 
 const app = express();
 
-const frontedOrigin = "http://localhost:5173";
+// const frontedOrigin = "http://localhost:5173";
 
 // middlewares
 app.use(
-	cors({
-		origin: frontedOrigin,
-		credentials: true,
-		allowedHeaders: ["Content-Type", "Authorization"],
-	})
+  cors({
+    methods: ["GET", "POST", "PUT", "DELETE"],
+  })
 );
-
+app.use(
+  cors({
+    origin: "*",
+    credentials: true,
+  })
+);
 app.use((req, res, next) => {
-	res.header("Access-Control-Allow-Origin", frontedOrigin);
-	res.header("Access-Control-Allow-Credentials", "true");
-	res.header("Access-Control-Allow-Methods", "GET, POST, PATCH, DELETE");
-	res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
-	next();
+  //res.header("Access-Control-Allow-Origin", frontedOrigin);
+  res.header("Access-Control-Allow-Credentials", "true");
+  res.header("Access-Control-Allow-Methods", "GET, POST, PATCH, DELETE");
+  res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
+  next();
 });
 
 // Other middlewares
@@ -39,6 +42,9 @@ app.use(express.json());
 app.use(cookieParser());
 
 // Routes
+app.get("/api/v1", (req, res, next) => {
+  res.send("Hello from the api");
+});
 app.use("/api/v1/projects", projectRoute);
 app.use("/api/v1/users", userRoute);
 app.use("/api/v1/comments", commentRoute);
@@ -48,7 +54,7 @@ app.use("/api/v1/latest", latestRoute);
 
 // Handle undefined routes
 app.all("*", (req, res, next) =>
-	next(new AppError(`Can't find ${req.originalUrl} in this server`, 404))
+  next(new AppError(`Can't find ${req.originalUrl} in this server`, 404))
 );
 
 // Global error handler
