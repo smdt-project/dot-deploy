@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const crypto = require("crypto");
 
 const orgSchema = new mongoose.Schema(
   {
@@ -12,7 +13,7 @@ const orgSchema = new mongoose.Schema(
     },
     description: {
       type: String,
-      required: [true, "organization must have type"],
+      required: [true, "organization must have a description"],
     },
     members: [
       {
@@ -21,7 +22,10 @@ const orgSchema = new mongoose.Schema(
         required: [true, "members of a project should be specified"],
       },
     ],
-
+    invitationObj: {
+      type: Array,
+      default: [],
+    },
     createdAt: {
       type: Date,
       default: Date.now(),
@@ -29,7 +33,19 @@ const orgSchema = new mongoose.Schema(
   },
   { timestamps: true, toJSON: { virtuals: true }, toObject: { virtuals: true } }
 );
+orgSchema.methods.createInvitationToken = function (id) {
+  const invitationToken = crypto.randomBytes(32).toString("hex");
 
+  let expiresIn = Date.now() + 7 * 24 * 60 * 60 * 1000;
+  obj = {
+    invitationToken,
+    id,
+    expiresIn,
+  };
+  this.invitationObj.push(obj);
+
+  return invitationToken;
+};
 const Organization = mongoose.model("Organization", orgSchema);
 
 module.exports = Organization;
