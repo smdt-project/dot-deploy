@@ -34,11 +34,18 @@ const projectSchema = new mongoose.Schema(
       type: String,
     },
     tags: [String],
+    ownerType: {
+      type: String,
+      enum: ["User", "Organization"],
+      required: true,
+      default: "User",
+    },
     owner: {
       type: mongoose.Schema.ObjectId,
-      ref: "User",
+      refPath: "ownerType",
       required: [true, "owner of a project should be specified"],
     },
+
     likes: [
       {
         type: mongoose.Schema.ObjectId,
