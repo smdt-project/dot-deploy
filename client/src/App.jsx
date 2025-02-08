@@ -4,7 +4,7 @@ import { Outlet, RouterProvider, createBrowserRouter } from "react-router-dom";
 import { getUserData } from "./features/auth/authData";
 import { authStatus, userDataRequest } from "./features/auth/authSlice";
 import SignIn from "./features/auth/signin/SignIn";
-import SignUp from "./features/auth/singup/SignUp";
+import SignUp from "./features/auth/signup/SignUp";
 import CommunityPage from "./pages/community/CommunityPage";
 import CommunityBody from "./pages/community/features/comBody/CommunityBody";
 import PostDetail from "./pages/community/features/comBody/PostDetail";

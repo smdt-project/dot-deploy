@@ -4,7 +4,7 @@ import {
 	watchUserDataSagas,
 } from "../features/auth/authSaga";
 import { watchSignInSagas } from "../features/auth/signin/signInSaga";
-import { watchSignUpSagas } from "../features/auth/singup/signUpSaga";
+import { watchSignUpSagas } from "../features/auth/signup/signUpSaga";
 import watchCommDataSagas, {
 	watchCommentSagas,
 	watchDetailingSagas,

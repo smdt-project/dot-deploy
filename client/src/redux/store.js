@@ -2,7 +2,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import createSagaMiddleware from "redux-saga";
 import authReducer from "../features/auth/authSlice";
 import signInReducer from "../features/auth/signin/signInSlice";
-import signUpReducer from "../features/auth/singup/signUpSlice";
+import signUpReducer from "../features/auth/signup/signUpSlice";
 import searchReducer from "../features/search/searchSlice";
 import communityReducer from "../pages/community/communitySlice";
 import postReducer from "../pages/community/features/comSidebar/postSlice";

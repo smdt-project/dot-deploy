@@ -3,7 +3,6 @@ import { html } from "@codemirror/lang-html";
 import { javascript } from "@codemirror/lang-javascript";
 import { FaCss3, FaJava, FaJs, FaPython, FaReact } from "react-icons/fa";
 import {
-	SiCsharp,
 	SiGo,
 	SiHtml5,
 	SiKotlin,
@@ -13,6 +12,7 @@ import {
 	SiSwift,
 	SiTypescript,
 } from "react-icons/si";
+import { TbBrandCSharp } from "react-icons/tb"
 
 export const supportedLng = [
 	{
@@ -66,7 +66,7 @@ export const supportedLng = [
 	},
 	{
 		title: "index",
-		icon: <SiCsharp className=" text-purple-600" size={14} />,
+		icon: <TbBrandCSharp className=" text-purple-600" size={14} />,
 		extension: "cs",
 		lngName: "csharp",
 		mode: javascript(),

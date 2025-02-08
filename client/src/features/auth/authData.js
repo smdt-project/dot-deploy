@@ -14,7 +14,7 @@ export const storeUserData = (user) => {
 		avatarUrl: userData.avatarUrl,
 	};
 
-	Cookies.set("jwt", jwt, { expires: 1 });
+	Cookies.set("jwt", jwt, { expires: 1000 * 60 * 60 * 24 });
 
 	localStorage.setItem("userData", JSON.stringify(data));
 };
