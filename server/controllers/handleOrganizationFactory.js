@@ -149,6 +149,7 @@ exports.createOne = (Model, docName) =>
     if (req.body.code) {
       req.body.code.version = 1;
     }
+    req.body.ownerType = "Organization";
     const doc = await Model.create({
       ...req.body,
       owner: req.orgId,
