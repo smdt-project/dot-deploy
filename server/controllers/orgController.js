@@ -3,6 +3,8 @@ const catchAsync = require("../utils/catchAsync");
 const User = require("../models/userModel");
 const AppError = require("../utils/AppError");
 const sendEmail = require("../utils/email");
+const Project = require("../models/projectModel");
+const factory = require("./handleOrganizationFactory");
 
 exports.createOrganization = catchAsync(async (req, res, next) => {
   req.body.members = [];
@@ -94,3 +96,63 @@ exports.addMember = catchAsync(async (req, res, next) => {
     message: " Member added successfully",
   });
 });
+exports.checkForPermission = catchAsync(async (req, res, next) => {
+  const organization = await Organization.findById(req.params.orgId);
+  if (!organization) {
+    res.json({
+      status: "fail",
+      message: "There is no organization with this id",
+    });
+    return next(new AppError("There is no organization with this id", 404));
+  }
+  if (!organization.members.includes(req.user.id)) {
+    res.json({
+      status: "fail",
+      message: "You are not authorized to do this",
+    });
+    return next(new AppError("You are not authorized to do this", 401));
+  }
+  req.orgId = req.params.orgId;
+  next();
+});
+
+exports.getAllProjects = factory.getAllDocs(Project, "project", {
+  path: "comments",
+  select: "-__v",
+  options: {
+    sort: { updatedAt: -1 },
+  },
+  populate: {
+    path: "owner",
+    select: "name _id avatarUrl",
+  },
+});
+
+exports.getProject = factory.getDoc(Project, "project", {
+  path: "comments",
+  select: "-__v",
+  options: {
+    sort: { updatedAt: -1 },
+  },
+  populate: {
+    path: "owner",
+    select: "name _id avatarUrl",
+  },
+});
+
+exports.getMyProjects = factory.getMyDocs(Project, "project", {
+  path: "comments",
+  select: "-__v",
+  options: {
+    sort: { updatedAt: -1 },
+  },
+  populate: {
+    path: "owner",
+    select: "name _id avatarUrl",
+  },
+});
+exports.createProject = factory.createOne(Project, "project");
+exports.updateProject = factory.updateOne(Project, "project");
+exports.deleteProject = factory.deleteOne(Project, "project");
+exports.likeProject = factory.likeDoc(Project, "project");
+exports.unlikeProject = factory.unlikeDoc(Project, "project");

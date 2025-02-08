@@ -7,7 +7,7 @@ const catchAsync = require("../utils/catchAsync");
 exports.unlikeDoc = (Model, docName) =>
   catchAsync(async (req, res, next) => {
     const docId = req.params.id;
-    const userId = req.user.id;
+    const userId = req.orgId;
 
     const doc = await Model.findById(docId);
     if (!doc) {
@@ -33,7 +33,7 @@ exports.unlikeDoc = (Model, docName) =>
 exports.likeDoc = (Model, docName) =>
   catchAsync(async (req, res, next) => {
     const docId = req.params.id;
-    const userId = req.user.id;
+    const userId = req.orgId;
 
     // Check if the user has already liked the project
     const doc = await Model.findById(docId);
@@ -85,7 +85,7 @@ exports.getAllDocs = (Model, docName, populateOptions) =>
   catchAsync(async (req, res) => {
     // BUILD QUERY
     const features = new APIFeatures(
-      Model.find().populate(populateOptions),
+      Model.find({ owner: req.orgId }).populate(populateOptions),
       req.query
     )
       .filter()
@@ -129,7 +129,7 @@ exports.getDoc = (Model, docName, populateOptions) =>
 
 exports.getMyDocs = (Model, docName, populateOptions) =>
   catchAsync(async (req, res, next) => {
-    let query = Model.find({ owner: req.user.id });
+    let query = Model.find({ owner: req.orgId });
 
     if (populateOptions) query = query.populate(populateOptions);
 
@@ -151,7 +151,7 @@ exports.createOne = (Model, docName) =>
     }
     const doc = await Model.create({
       ...req.body,
-      owner: req.user.id,
+      owner: req.orgId,
       project: req.params.projectId,
       relatedModel: req.relatedModel,
     });
@@ -166,7 +166,6 @@ exports.updateOne = (Model, docName) =>
   catchAsync(async (req, res, next) => {
     requestBody = req.body;
     code = requestBody?.code;
-
     let doc = await Model.findById(req.params.id);
     if (code) {
       if (doc.code.length > 0) {
@@ -179,19 +178,9 @@ exports.updateOne = (Model, docName) =>
         requestBody.code = doc.code;
       }
     }
+
     if (!doc) {
       return next(new AppError(`No ${docName} found to update`, 404));
-    }
-
-    const ownerId =
-      docName === "project" || docName === "post"
-        ? doc.owner._id.toString()
-        : doc.owner.toString();
-
-    if (ownerId !== req.user.id.toString()) {
-      return next(
-        new AppError(`You have no authorization to update this ${docName}`, 401)
-      );
     }
 
     const updatedDoc = await Model.findByIdAndUpdate(
@@ -218,12 +207,6 @@ exports.deleteOne = (Model, docName) =>
       return next(new AppError(`No ${docName} is found`, 404));
     }
 
-    if (req.user.id.toString() !== doc.owner._id.toString()) {
-      return next(
-        new AppError(`Your are not authorized to delete this ${docName}`)
-      );
-    }
-
     // delete all comments related to a project or a post
     if (docName === "project" || docName === "post") {
       await Comment.deleteMany({ project: doc._id });
@@ -231,7 +214,7 @@ exports.deleteOne = (Model, docName) =>
 
     doc = await Model.findByIdAndDelete(id);
 
-    res.status(201).json({
+    res.status(204).json({
       status: "success",
       data: {
         doc,
