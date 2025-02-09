@@ -6,6 +6,16 @@ const commentController = require("../controllers/commentController");
 const router = express.Router();
 
 router.get("/", authController.protect, orgController.getAllOrganizations);
+router.patch(
+  "/:orgId",
+  authController.protect,
+  orgController.updateOrganization
+);
+router.delete(
+  "/:orgId",
+  authController.protect,
+  orgController.deleteOrganization
+);
 router.get(
   "/projects/:orgId",
   authController.protect,
