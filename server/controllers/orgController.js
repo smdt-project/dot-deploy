@@ -100,7 +100,7 @@ exports.addMember = catchAsync(async (req, res, next) => {
 exports.getAllOrganizations = catchAsync(async (req, res, next) => {
   const organizations = await Organization.find({
     members: { $in: [req.user.id] },
-  });
+  }).populate("members");
   res.status(200).json({
     status: "success",
     results: organizations.length,
