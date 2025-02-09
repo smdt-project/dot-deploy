@@ -85,7 +85,7 @@ exports.getAllDocs = (Model, docName, populateOptions) =>
   catchAsync(async (req, res) => {
     // BUILD QUERY
     const features = new APIFeatures(
-      Model.find().populate(populateOptions),
+      Model.find({ visibility: { $ne: "private" } }).populate(populateOptions),
       req.query
     )
       .filter()
