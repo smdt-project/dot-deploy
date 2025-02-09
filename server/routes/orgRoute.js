@@ -5,6 +5,7 @@ const commentController = require("../controllers/commentController");
 
 const router = express.Router();
 
+router.get("/", authController.protect, orgController.getAllOrganizations);
 router.get(
   "/projects/:orgId",
   authController.protect,

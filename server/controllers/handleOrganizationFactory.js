@@ -1,4 +1,5 @@
 const Comment = require("../models/commetModel");
+const Organization = require("../models/orgModel");
 const APIFeatures = require("../utils/APIFeatures");
 const AppError = require("../utils/AppError");
 const catchAsync = require("../utils/catchAsync");

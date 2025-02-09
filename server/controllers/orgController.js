@@ -96,6 +96,19 @@ exports.addMember = catchAsync(async (req, res, next) => {
     message: " Member added successfully",
   });
 });
+exports.getAllOrganizations = catchAsync(async (req, res, next) => {
+  const organizations = await Organization.find({
+    members: { $in: [req.user.id] },
+  });
+  res.status(200).json({
+    status: "success",
+    results: organizations.length,
+    data: {
+      organizations,
+    },
+  });
+});
+
 exports.checkForPermission = catchAsync(async (req, res, next) => {
   const organization = await Organization.findById(req.params.orgId);
   if (!organization) {
