@@ -14,6 +14,7 @@ router.patch(
 router.delete(
   "/:orgId",
   authController.protect,
+  orgController.checkForDeletePermission,
   orgController.deleteOrganization
 );
 router.get(
@@ -52,6 +53,7 @@ router.delete(
   "/project/:orgId/:id",
   authController.protect,
   orgController.checkForPermission,
+  orgController.checkForDeletePermission,
   orgController.deleteProject
 );
 

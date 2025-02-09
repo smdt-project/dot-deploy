@@ -5,6 +5,7 @@ const AppError = require("../utils/AppError");
 const sendEmail = require("../utils/email");
 const Project = require("../models/projectModel");
 const factory = require("./handleOrganizationFactory");
+const mongoose = require("mongoose");
 
 exports.createOrganization = catchAsync(async (req, res, next) => {
   req.body.members = [];
@@ -144,6 +145,29 @@ exports.checkForPermission = catchAsync(async (req, res, next) => {
     return next(new AppError("There is no organization with this id", 404));
   }
   if (!organization.members.includes(req.user.id)) {
+    res.json({
+      status: "fail",
+      message: "You are not authorized to do this",
+    });
+    return next(new AppError("You are not authorized to do this", 401));
+  }
+  req.orgId = req.params.orgId;
+  next();
+});
+
+exports.checkForDeletePermission = catchAsync(async (req, res, next) => {
+  const organization = await Organization.findById(req.params.orgId);
+  if (!organization) {
+    res.json({
+      status: "fail",
+      message: "There is no organization with this id",
+    });
+    return next(new AppError("There is no organization with this id", 404));
+  }
+  console.log("organization", organization.members[0], req.user.id);
+  if (
+    !organization.members[0].equals(new mongoose.Types.ObjectId(req.user.id))
+  ) {
     res.json({
       status: "fail",
       message: "You are not authorized to do this",
