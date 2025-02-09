@@ -70,11 +70,11 @@ projectSchema.virtual("comments", {
   localField: "_id",
 });
 
-// enable reading only publics
-projectSchema.pre(/^find/, function (next) {
-  this.find({ visibility: { $ne: "private" } });
-  next();
-});
+// // enable reading only publics
+// projectSchema.pre(/^find/, function (next) {
+//   this.find({ visibility: { $ne: "private" } });
+//   next();
+// });
 
 // populate owner data for any find queries
 projectSchema.pre(/^find/, function (next) {
