@@ -78,7 +78,7 @@ router.post(
 );
 router.post(
   "/invitations/:invitationToken/:orgId",
-  authController.protect,
+  // authController.protect,
   orgController.addMember
 );
 module.exports = router;
