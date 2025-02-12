@@ -25,6 +25,7 @@ app.use(
       "http://localhost:5174",
       "http://127.0.0.1:5174",
       "https://dot-code-nu.vercel.app",
+      "https://dot-deploy-front-end.vercel.app",
     ],
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
