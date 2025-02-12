@@ -137,7 +137,7 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
   await user.save({ validateBeforeSave: false });
 
   // 3) send resetting token to user's email
-  const resetURL = `http://localhost:5173/reset-password?token=${resetToken}`;
+  const resetURL = `https://dot-deploy-front-end.vercel.app/reset-password?token=${resetToken}`;
 
   const message = `Forgot you password? \nSubmit a your info with your new password and confirm password to: ${resetURL}. \nIf you did'nt forget your password, please ignore this email!`;
   try {
