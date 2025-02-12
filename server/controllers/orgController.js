@@ -34,7 +34,7 @@ exports.sendInvitation = catchAsync(async (req, res, next) => {
 
   // send an email
   // 3) send resetting token to user's email
-  const invitationLink = `http://localhost:5173/approve-invitation/?teamId=${invitationToken}/?token=${organization._id}`;
+  const invitationLink = `http://localhost:5173/approve-invitation/?teamId=${invitationToken}?token=${organization._id}`;
 
   const message = `You have been invited to join ${organization.name}. \n Click down link to join an invitation: ${invitationLink}. \n The link will be valid for only 7 days starting from now. \nIf you did'nt invite you, please ignore this email!`;
   try {
