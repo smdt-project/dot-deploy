@@ -19,7 +19,7 @@ async function getGeminiSuggestions(oldestCode, currentCode) {
             {
               text: ` Assume you are a Senior developer agent and commit message generator like copilot. I won't give you a full code but i will give you the text that's stored as an object in the database. I want you to be very smart in detecting the text's, analysing the code and finally suggesting what's the commit message should be.
 				The oldest object that contains the code text is down below:\n${oldestCode}\n\n and the current object that contains the code text is down:\n${currentCode}
-				And by seeing what's changed I want you to suggest only one commit message like github copilot do?
+				And by seeing what's changed I want you to give me only maximum of 7 words of one commit message like github copilot do? Don't say any other explanation and text I want a maximum of 7 words commit message.
 				`,
             },
           ],
