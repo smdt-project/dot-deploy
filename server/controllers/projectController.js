@@ -166,6 +166,143 @@ exports.findBug= catchAsync(async function(req, res, next) {
   }
 }
 )
+
+exports.chat= catchAsync(async function(req, res, next) {
+  const openRouterAPIKey= getOpenRouterApiKey();
+  const selectedModel= getSelectedModel(req.body.selectedModel);
+  const editor_code= req.body.code;
+  const language= req.body.language;
+  const userQuestion= req.body.question;
+  const prompt = `As a senior software developer, answer the user's question about this ${language} code:
+    <code>
+    ${editor_code}
+    </code>
+
+    <user-question>
+    ${userQuestion}
+    </user-question>
+    If the user is providing a code snippet in the user question, please explain it according to the above code and also tell the user what does it mean, give a solution.
+    Provide a detailed response that:
+    1. Directly addresses the specific question asked
+    2. Explains relevant concepts and principles
+    3. ALWAYS includes complete, working code implementation
+    4. Makes the code easily adaptable to the user's needs
+
+    Your response must include:
+    - Clear explanation of the solution approach
+    - Well-commented, production-ready code
+    - Complete implementation that solves the user's problem
+    - Consideration of edge cases and performance
+
+    Be thorough in your explanation but prioritize providing functional code that the user can immediately implement. Format code with proper indentation and follow ${language} best practices.`;
+  try {
+    const response = await fetch(
+      "https://openrouter.ai/api/v1/chat/completions",
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${openRouterAPIKey}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          model: selectedModel,
+          messages: [
+            {
+              role: "user",
+              content: prompt,
+            },
+          ],
+          temperature: 0.1,
+          max_tokens: 2000,
+        }),
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    let content = data.choices[0].message.content;
+
+    res.json({
+      "message": "success",
+      "data": content
+    });
+  } catch (error) {
+    console.log('error', error)
+    res.json({
+      "message": "error",
+      "data": error.message
+    })
+  }
+}
+)
+
+exports.autoCompletion= catchAsync(async function(req, res, next) {
+  const openRouterAPIKey= getOpenRouterApiKey();
+  const selectedModel= getSelectedModel(req.body.selectedModel);
+  const partialCode= req.body.code;
+  const language= req.body.language;
+  const prompt = `Given the following partial ${language} code, continue writing the most logical and natural completion:
+      <existing-code>
+      ${partialCode}
+      </existing-code>
+      Continue the code by:
+      1. Maintaining the same style, naming conventions, and patterns
+      2. Completing the current structure, function, or block
+      3. Following idiomatic ${language} practices
+      4. Ensuring the completed code is syntactically valid
+      5. Inferring the intended functionality from context
+      6. Including appropriate error handling where necessary
+      7. Adding comments only when they clarify complex logic
+
+      The code completion should feel like a seamless extension of what the user has already written. Do not explain or discuss the code - simply provide the natural continuation starting from where the user's code ends.`;
+
+  try {
+    const response = await fetch(
+      "https://openrouter.ai/api/v1/chat/completions",
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${openRouterAPIKey}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          model: selectedModel,
+          messages: [
+            {
+              role: "user",
+              content: prompt,
+            },
+          ],
+          temperature: 0.1,
+          max_tokens: 2000,
+        }),
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    let content = data.choices[0].message.content;
+
+    res.json({
+      "message": "success",
+      "data": content
+    });
+  } catch (error) {
+    console.log('error', error)
+    res.json({
+      "message": "error",
+      "data": error.message
+    })
+  }
+}
+)
+
 exports.getAllProjects = factory.getAllDocs(Project, "project", {
   path: "comments",
   select: "-__v",

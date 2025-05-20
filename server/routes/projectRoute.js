@@ -12,6 +12,8 @@ route.get(
   projectController.getMyProjects
 );
 route.post('/find-bug', projectController.findBug);
+route.post('/chat', projectController.chat);
+route.post('/auto-completion', projectController.autoCompletion)
 route.post(
   "/suggest/:id",
   authController.protect,
