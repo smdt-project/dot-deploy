@@ -11,6 +11,7 @@ route.get(
   authController.protect,
   projectController.getMyProjects
 );
+route.post('/find-bug', projectController.findBug);
 route.post(
   "/suggest/:id",
   authController.protect,

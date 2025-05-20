@@ -10,6 +10,10 @@ const GEMINI_API_URL =
   "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=" +
   GEMINI_API_KEY;
 
+const getOpenRouterApiKey= function(){
+  return process.env.OPENROUTER_API_KEY;
+}
+
 async function getGeminiSuggestions(oldestCode, currentCode) {
   try {
     const payload = {
@@ -74,6 +78,94 @@ exports.suggestCommit = catchAsync(async (req, res, next) => {
   });
 });
 
+
+const AI_MODELS = {
+  "Gemini 2.0 Flash": "google/gemini-2.0-flash-001",
+  "Mistral 7B Instruct": "mistralai/mistral-7b-instruct:free",
+  "Qwen 2.5 Coder 32B Instruct": "qwen/qwen-2.5-coder-32b-instruct",
+  "Microsoft Phi-3 Medium 128K Instruct":
+    "microsoft/phi-3-medium-128k-instruct:free",
+  "Meta Llama 3 8B Instruct": "meta-llama/llama-3-8b-instruct:free",
+  "OpenChat 3.5 7B": "openchat/openchat-7b:free",
+  "Microsoft Phi-3 Mini 128K Instruct":
+    "microsoft/phi-3-mini-128k-instruct:free",
+  "DeepSeek-R1": "deepseek/deepseek-r1:free",
+  };
+const getSelectedModel= (selectedModel)=>{
+  return AI_MODELS[selectedModel];
+}
+
+exports.findBug= catchAsync(async function(req, res, next) {
+  const openRouterAPIKey= getOpenRouterApiKey();
+  const selectedModel= getSelectedModel(req.body.selectedModel);
+  const originalContent= req.body.code;
+  const language= req.body.language;
+  console.log('openRouterAPIKey', openRouterAPIKey, 'selectedModel', selectedModel, 'originalContent', originalContent, 'language', language);
+  const prompt = `You are a senior software engineer specialized in identifying bugs and code issues. Analyze the provided code that contains ${language} and identify all potential bugs, errors, and vulnerabilities.
+
+                    - Identify any syntax errors, logic flaws, and runtime exceptions
+                    - Detect inconsistent variable usage and undefined references
+                    - Flag potential security vulnerabilities and performance bottlenecks
+                    - Identify improper error handling and edge cases
+                    - Check for memory leaks and resource management issues
+                    - Analyze asynchronous code for potential race conditions
+                    
+                    For each bug found, provide:
+                    1. A brief description of the issue
+                    2. The specific location in the code
+                    3. The severity (Critical, High, Medium, Low)
+                    4. A recommended fix with code examples
+
+                    <code-to-analyze>
+                    ${originalContent}
+                    </code-to-analyze>
+
+                    Respond with a structured analysis of all bugs found, ordered by severity. Include code snippets showing the recommended fixes.`;
+
+
+  try {
+    const response = await fetch(
+      "https://openrouter.ai/api/v1/chat/completions",
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${openRouterAPIKey}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          model: selectedModel,
+          messages: [
+            {
+              role: "user",
+              content: prompt,
+            },
+          ],
+          temperature: 0.1,
+          max_tokens: 2000,
+        }),
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    let content = data.choices[0].message.content;
+
+    res.json({
+      "message": "success",
+      "data": content
+    });
+  } catch (error) {
+    console.log('error', error)
+    res.json({
+      "message": "error",
+      "data": error.message
+    })
+  }
+}
+)
 exports.getAllProjects = factory.getAllDocs(Project, "project", {
   path: "comments",
   select: "-__v",
