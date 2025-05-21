@@ -86,7 +86,8 @@ const AI_MODELS = {
   "Microsoft Phi-3 Medium 128K Instruct":
     "microsoft/phi-3-medium-128k-instruct:free",
   "Meta Llama 3 8B Instruct": "meta-llama/llama-3-8b-instruct:free",
-  "OpenChat 3.5 7B": "openchat/openchat-7b:free",
+  "OpenGVLab: InternVL3 14B": "opengvlab/internvl3-14b:free",
+  "NVIDIA: Llama 3.3 Nemotron Super 49B v1":"nvidia/llama-3.3-nemotron-super-49b-v1:free",
   "Microsoft Phi-3 Mini 128K Instruct":
     "microsoft/phi-3-mini-128k-instruct:free",
   "DeepSeek-R1": "deepseek/deepseek-r1:free",
