@@ -173,10 +173,15 @@ exports.chat= catchAsync(async function(req, res, next) {
   const editor_code= req.body.code;
   const language= req.body.language;
   const userQuestion= req.body.question;
+  const chatHistory= req.body.history;
   const prompt = `As a senior software developer, answer the user's question about this ${language} code:
     <code>
     ${editor_code}
     </code>
+    And we have a chat history that you have to see their previous conversation if any.
+      <chat_history>
+      ${chatHistory}
+      </chat_history>
 
     <user-question>
     ${userQuestion}
