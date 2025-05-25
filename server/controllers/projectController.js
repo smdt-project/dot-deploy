@@ -91,6 +91,9 @@ const AI_MODELS = {
   "Microsoft Phi-3 Mini 128K Instruct":
     "microsoft/phi-3-mini-128k-instruct:free",
   "DeepSeek-R1": "deepseek/deepseek-r1:free",
+  "Microsoft Phi 4 Reasoning":"microsoft/phi-4-reasoning:free",
+  "Moonshot AI Moonlight 16B A3B Instruct":"moonshotai/moonlight-16b-a3b-instruct:free",
+  "Moonshot AI Kimi VL A3B Thinking":"moonshotai/kimi-vl-a3b-thinking:free"
   };
 const getSelectedModel= (selectedModel)=>{
   return AI_MODELS[selectedModel];
