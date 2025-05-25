@@ -83,14 +83,14 @@ const AI_MODELS = {
   "Gemini 2.0 Flash": "google/gemini-2.0-flash-001",
   "Mistral 7B Instruct": "mistralai/mistral-7b-instruct:free",
   "Qwen 2.5 Coder 32B Instruct": "qwen/qwen-2.5-coder-32b-instruct",
-  "Microsoft Phi-3 Medium 128K Instruct":
-    "microsoft/phi-3-medium-128k-instruct:free",
-  "Meta Llama 3 8B Instruct": "meta-llama/llama-3-8b-instruct:free",
+  "Qwen: Qwen3 8B":
+    "qwen/qwen3-8b:free",
+  "Meta: Llama 3.1 8B Instruct": "meta-llama/llama-3.1-8b-instruct:free",
   "OpenGVLab: InternVL3 14B": "opengvlab/internvl3-14b:free",
   "NVIDIA: Llama 3.3 Nemotron Super 49B v1":"nvidia/llama-3.3-nemotron-super-49b-v1:free",
-  "Microsoft Phi-3 Mini 128K Instruct":
-    "microsoft/phi-3-mini-128k-instruct:free",
-  "DeepSeek-R1": "deepseek/deepseek-r1:free",
+  "Microsoft: MAI DS R1":
+    "microsoft/mai-ds-r1:free",
+  "DeepSeek: DeepSeek V3 0324": "deepseek/deepseek-chat-v3-0324:free",
   "Microsoft Phi 4 Reasoning":"microsoft/phi-4-reasoning:free",
   "Moonshot AI Moonlight 16B A3B Instruct":"moonshotai/moonlight-16b-a3b-instruct:free",
   "Moonshot AI Kimi VL A3B Thinking":"moonshotai/kimi-vl-a3b-thinking:free"
