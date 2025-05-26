@@ -266,7 +266,7 @@ exports.autoCompletion= catchAsync(async function(req, res, next) {
       6. Including appropriate error handling where necessary
       7. Adding comments only when they clarify complex logic
 
-      The code completion should feel like a seamless extension of what the user has already written. Do not explain or discuss the code - simply provide the natural continuation starting from where the user's code ends. I want the next code and don't write the previous code just give me the next code that will be appended.`;
+      The code completion should feel like a seamless extension of what the user has already written. Do not explain or discuss the code - simply provide the natural continuation starting from where the user's code ends. I want the next code and don't write the previous code just give me the next code that will be appended. REMEMBER: don't again write the previous code at any time I want the next code only only.`;
 
   try {
     const response = await fetch(
