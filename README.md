@@ -1,4 +1,4 @@
-# 📎 Clip Code
+# 📎 Dot Code
 
 > ✨ A Developer-Focused Code Snippet Management and Collaboration Tool — Built for productivity, collaboration, and innovation.
 
@@ -6,7 +6,7 @@
 
 ## 🚀 Overview
 
-**Clip Code** is an open-source platform that empowers developers to efficiently store, organize, retrieve, and collaborate on reusable code snippets. With built-in AI tools for bug detection, code explanation, and autocompletion, Clip Code brings smart coding assistance and seamless teamwork together in one modern interface.
+**Dot Code** is an open-source platform that empowers developers to efficiently store, organize, retrieve, and collaborate on reusable code snippets. With built-in AI tools for bug detection, code explanation, and autocompletion, Dot Code brings smart coding assistance and seamless teamwork together in one modern interface.
 
 ---
 
@@ -42,7 +42,7 @@
 
 ```bash
 # Clone the repo
-[git clone https://github.com/your-username/clip-code.git](https://github.com/smdt-project/dot-deploy)
+[git clone https://github.com/your-username/Dot-code.git](https://github.com/smdt-project/dot-deploy)
 
 # Go to the project directory
 cd dot-code
